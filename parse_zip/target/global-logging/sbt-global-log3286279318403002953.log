@@ -1,8 +1,0 @@
-[0m[[0m[0mdebug[0m] [0m[0m> Exec(run, Some(5360f9df-49cc-4969-97ad-065bba3b01cb), Some(CommandSource(console0)))[0m
-[0m[[0m[0mdebug[0m] [0m[0mEvaluating tasks: Compile / run[0m
-[0m[[0m[0mdebug[0m] [0m[0mRunning task... Cancel: Signal, check cycles: false, forcegc: true[0m
-[0m[[0m[0minfo[0m] [0m[0mcompiling 1 Scala source to /home/surzh/learning_scala/parse_zip/target/scala-2.13/classes ...[0m
-[0m[[0m[33mwarn[0m] [0m[0m2 deprecations (since 2.13.0)[0m
-[0m[[0m[33mwarn[0m] [0m[0m1 deprecation (since 2.13.3)[0m
-[0m[[0m[33mwarn[0m] [0m[0m3 deprecations in total; re-run with -deprecation for details[0m
-[0m[[0m[33mwarn[0m] [0m[0mthree warnings found[0m

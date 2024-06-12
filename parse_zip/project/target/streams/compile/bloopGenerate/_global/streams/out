@@ -1,4 +1,0 @@
-[0m[[0m[0mdebug[0m] [0m[0m[parse_zip-build] Classpath dependencies List()[0m
-[0m[[0m[0mdebug[0m] [0m[0m[parse_zip-build] Dependencies from configurations List()[0m
-[0m[[0m[0mdebug[0m] [0m[0mBloop wrote the configuration of project 'parse_zip-build' to '/home/surzh/airflow_pipeline/parse_zip/project/.bloop/parse_zip-build.json'[0m
-[0m[[0m[32msuccess[0m] [0m[0mGenerated .bloop/parse_zip-build.json[0m
