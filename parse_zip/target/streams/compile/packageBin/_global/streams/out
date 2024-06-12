@@ -1,0 +1,9 @@
+[0m[[0m[0mdebug[0m] [0m[0mPackaging /home/surzh/airflow_pipeline/parse_zip/target/scala-2.13/parse-zip_2.13-1.0.jar ...[0m
+[0m[[0m[0mdebug[0m] [0m[0mInput file mappings:[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Main$delayedInit$body.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/surzh/airflow_pipeline/parse_zip/target/scala-2.13/classes/Main$delayedInit$body.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Main$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/surzh/airflow_pipeline/parse_zip/target/scala-2.13/classes/Main$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Main.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/surzh/airflow_pipeline/parse_zip/target/scala-2.13/classes/Main.class[0m
+[0m[[0m[0mdebug[0m] [0m[0mDone packaging.[0m

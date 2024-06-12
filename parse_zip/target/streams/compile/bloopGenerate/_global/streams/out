@@ -1,0 +1,4 @@
+[debug] [parse_zip] Classpath dependencies List()
+[debug] [parse_zip] Dependencies from configurations List()
+[debug] Bloop wrote the configuration of project 'parse_zip' to '/home/surzh/learning_scala/parse_zip/.bloop/parse_zip.json'
+[success] Generated .bloop/parse_zip.json
