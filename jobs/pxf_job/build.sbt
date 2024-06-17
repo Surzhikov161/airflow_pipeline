@@ -1,6 +1,6 @@
 scalaVersion := "2.13.12"
 
-name := "parse-zip"
+name := "pxf_job"
 organization := "ch.epfl.scala"
 version := "1.0"
 
