@@ -56,6 +56,7 @@ class ParseZip:
                 if file_name.endswith(".txt"):
                     df = self.spark.read.text(path)
                     df.write.mode("overwrite").parquet(save_path)
+                    # df.write.mode("overwrite").parquet(f"{hdfs_uri}:{hdfs_port}/user/{hdfs_user}/{save_path}")
                 elif file_name.endswith(".xml"):
                     tree = ET.parse(path)
                     root = tree.getroot()
@@ -73,10 +74,11 @@ class ParseZip:
                         sourceDf,
                     )
                     resDf.write.mode("overwrite").parquet(save_path)
+                    # resDf.write.mode("overwrite").parquet(f"{hdfs_uri}:{hdfs_port}/user/{hdfs_user}/{save_path}")
                 else:
                     print(f"======== Unexpected file type ======== ")
 
-
-parser = ParseZip(hdfs_uri, hdfs_user)
-# parser.unzip()
-parser.parse_xmls()
+def run_parse():
+    parser = ParseZip(hdfs_uri, hdfs_user)
+    parser.unzip()
+    parser.parse_xmls()

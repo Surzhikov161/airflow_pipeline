@@ -1,5 +1,7 @@
+import os
 import pyarrow.fs
 from pyspark.sql import SparkSession
+from airflow.providers.postgres.hooks.postgres import PostgresHook
 
 from src.config.config import (
     hdfs_uri,
@@ -13,26 +15,29 @@ from src.config.config import (
 public_schema = "public"
 
 
-def get_queries() -> list[tuple[str, str]]:
-    spark = (
-        SparkSession.builder.appName("Make pxf table in gp").master("local[*]")
-        # .config("spark.jars", "spark-xml_2.12-0.18.0.jar")
-        # .config("spark.executor.extraClassPath", "spark-xml_2.12-0.18.0.jar")
-        # .config("spark.executor.extraLibrary", "spark-xml_2.12-0.18.0.jar")
-        # .config("spark.driver.extraClassPath", "spark-xml_2.12-0.18.0.jar")
-        .getOrCreate()
-    )
+spark = (
+    SparkSession.builder.appName("Make pxf table in gp").master("local[*]")
+    # .config("spark.jars", "spark-xml_2.12-0.18.0.jar")
+    # .config("spark.executor.extraClassPath", "spark-xml_2.12-0.18.0.jar")
+    # .config("spark.executor.extraLibrary", "spark-xml_2.12-0.18.0.jar")
+    # .config("spark.driver.extraClassPath", "spark-xml_2.12-0.18.0.jar")
+    .getOrCreate()
+)
 
-    hdfs = pyarrow.fs.HadoopFileSystem(hdfs_uri, user=hdfs_user)
+hdfs = pyarrow.fs.HadoopFileSystem(hdfs_uri, user=hdfs_user)
 
-    pathToParquet = f"{my_dir}/{parsed_path}"
+pathToParquet = f"{my_dir}/{parsed_path}"
 
-    all_files = hdfs.get_file_info(
-        pyarrow.fs.FileSelector(pathToParquet, recursive=True)
-    )
-    queries = []
-    for fileInfo in all_files:
-        if not fileInfo.is_file and "as_" in fileInfo.path.lower():
+all_files = hdfs.get_file_info(
+    pyarrow.fs.FileSelector(pathToParquet, recursive=True)
+)
+dir_name = "scripts"
+os.mkdir(dir_name)
+for fileInfo in all_files:
+    if not fileInfo.is_file and "as_" in fileInfo.path.lower():
+        tmp_name = fileInfo.path.replace("/", "_")
+        script_path = os.path.join(dir_name, f"script_for_gp_{tmp_name}.sql")
+        with open(script_path, "w") as f:
             df = spark.read.parquet(f"{hdfs_uri}:{hdfs_port}{fileInfo.path}")
             df_types = df.dtypes
 
@@ -43,5 +48,4 @@ def get_queries() -> list[tuple[str, str]]:
                 LOCATION ('pxf:/{fileInfo.path}?PROFILE=hdfs:parquet')
                 FORMAT 'CUSTOM' (FORMATTER='pxfwritable_import');
                 """
-            queries.append((query, f"load {fileInfo.path}"))
-    return queries
+            f.write(query + "\n")
