@@ -12,6 +12,7 @@ from src.config.config import (
     parsed_path,
     unzip_dir,
     my_dir,
+    hdfs_port,
 )
 from functools import reduce
 
@@ -55,8 +56,12 @@ class ParseZip:
                 path = os.path.join(fpath, file_name)
                 if file_name.endswith(".txt"):
                     df = self.spark.read.text(path)
-                    df.write.mode("overwrite").parquet(save_path)
-                    # df.write.mode("overwrite").parquet(f"{hdfs_uri}:{hdfs_port}/user/{hdfs_user}/{save_path}")
+                    # df.write.mode("overwrite").parquet(save_path)
+                    print(f"======== Saving {file_name} to HDFS ======== ")
+                    df.write.mode("overwrite").parquet(
+                        f"{hdfs_uri}:{hdfs_port}/user/{hdfs_user}/{save_path}"
+                    )
+                    print(f"======== Success save of {file_name} ======== \n")
                 elif file_name.endswith(".xml"):
                     tree = ET.parse(path)
                     root = tree.getroot()
@@ -73,12 +78,21 @@ class ParseZip:
                         sourceDf.columns,
                         sourceDf,
                     )
-                    resDf.write.mode("overwrite").parquet(save_path)
-                    # resDf.write.mode("overwrite").parquet(f"{hdfs_uri}:{hdfs_port}/user/{hdfs_user}/{save_path}")
+                    # resDf.write.mode("overwrite").parquet(save_path)
+                    print(f"======== Saving {file_name} to HDFS ======== ")
+                    resDf.write.mode("overwrite").parquet(
+                        f"{hdfs_uri}:{hdfs_port}/user/{hdfs_user}/{save_path}"
+                    )
+                    print(f"======== Success save of {file_name} ======== \n")
                 else:
-                    print(f"======== Unexpected file type ======== ")
+                    print(f"======== Unexpected file type ======== \n")
+        print("======== Parsing end without errors ========")
+
 
 def run_parse():
     parser = ParseZip(hdfs_uri, hdfs_user)
     parser.unzip()
     parser.parse_xmls()
+
+
+run_parse()
