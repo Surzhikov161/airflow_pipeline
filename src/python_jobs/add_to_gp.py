@@ -7,7 +7,6 @@ from src.config.config import (
     hdfs_user,
     my_dir,
     parsed_path,
-    hdfs_uri,
     hdfs_port,
     zipname,
 )

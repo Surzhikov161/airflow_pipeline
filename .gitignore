@@ -244,3 +244,5 @@ __pycache__/
 .env
 .venv
 .airflowctl
+unziped_gar
+*.zip
