@@ -246,3 +246,4 @@ __pycache__/
 .airflowctl
 unziped_gar
 *.zip
+data

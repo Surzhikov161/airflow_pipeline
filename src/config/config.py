@@ -17,6 +17,15 @@ hdfs_user = os.environ.get("HDFS_USER")
 hdfs_port = os.environ.get("HDFS_PORT")
 unzip_path = os.path.join(unzip_dir, re.sub(r"\..+", "", zipname))
 my_dir = f"/user/{hdfs_user}"
-save_path = f"{hdfs_uri}:{hdfs_port}{my_dir}/{zipname}"
+hdfs_path_to_my_dir = f"{hdfs_uri}:{hdfs_port}{my_dir}"
+zip_save_path = f"{hdfs_path_to_my_dir}/{zipname}"
+stg_path = f"{hdfs_path_to_my_dir}/stg"
 os.environ["HADOOP_USER_NAME"] = hdfs_user
 os.environ["ARROW_LIBHDFS_DIR"] = "../hadoop/lib/native/"
+
+aston_filenames = [
+    "bank_transactions",
+    "clients",
+    "securities",
+    "security_transactions",
+]

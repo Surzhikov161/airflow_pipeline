@@ -1,4 +1,3 @@
-import sys
 import pyarrow.fs
 from pyspark.sql import SparkSession
 from src.utils import execute_sql

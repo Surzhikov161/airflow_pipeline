@@ -5,9 +5,9 @@ from src.config.config import (
     hdfs_user,
     hdfs_uri,
     zipname,
-    save_path,
+    zip_save_path,
 )
 
 
 def add_to_hdfs():
-    pyarrow.fs.copy_files(zipname, save_path)
+    pyarrow.fs.copy_files(zipname, zip_save_path)
