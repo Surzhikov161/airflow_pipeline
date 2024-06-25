@@ -175,5 +175,3 @@ generator_map = {
     "securities.csv": data_generator.generate_securities,
     "bank_transactions.csv": data_generator.generate_security_transactions,
 }
-
-data_generator.generate_security_transactions()

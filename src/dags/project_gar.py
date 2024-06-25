@@ -7,7 +7,7 @@ from airflow.providers.apache.spark.operators.spark_submit import (
 import os
 from src.python_jobs_for_aston.data_generator import generator_map
 from src.python_jobs_for_aston.hdsf_stg import add_to_hdfs
-from src.config.config import aston_filenames, hdfs_path_to_my_dir
+from src.config.config import aston_filenames, hdfs_path_to_my_dir, data_dir
 
 default_args = {
     "owner": "airflow",
@@ -69,11 +69,10 @@ def create_hdfs_dds_task(path: str):
 
 stg_tasks = []
 dds_tasks = []
-for root_dir, _, files in os.walk("data"):
-    for file in files:
-        path = os.path.join(root_dir, file)
-        stg_tasks.append(create_stg_task(path))
-        dds_tasks.append(create_hdfs_dds_task(path))
+for name in aston_filenames:
+    path = os.path.join(data_dir, name + ".csv")
+    stg_tasks.append(create_stg_task(path))
+    dds_tasks.append(create_hdfs_dds_task(path))
 
 
 def create_hive_task(uri, name):

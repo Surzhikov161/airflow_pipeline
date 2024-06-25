@@ -1,0 +1,60 @@
+import requests
+import xmltodict
+from functools import reduce
+import datetime
+from multiprocessing.pool import ThreadPool
+from pyspark.sql import SparkSession
+
+from src.config.config import gp_user, gp_uri, gp_pass
+
+gscReadOptionMap = {
+      "url": gp_uri,
+      "user":gp_user,
+      "password":gp_pass,
+      "dbschema": "stg",
+      "dbtable":"clients",
+      "partitionColumn":"id"
+}
+
+spark = (
+    SparkSession.builder.appName("Gp currency table")
+    .master("local[*]")
+    .getOrCreate()
+)
+
+
+base = datetime.date.today()
+start_date = datetime.date(year=2024, month=1, day=1)
+numdays = (base - start_date).days
+date_list = [
+    (base - datetime.timedelta(days=x)).strftime("%d/%m/%Y")
+    for x in range(numdays)
+]
+uri_list = [
+    uri.format(date=date)
+    for uri, date in zip(
+        ["https://cbr.ru/scripts/XML_daily.asp?date_req={date}"]
+        * len(date_list),
+        date_list,
+    )
+]
+
+
+
+# "https://cbr.ru/scripts/XML_daily.asp?date_req=25/06/2024"
+def get_usd_value(uri: str):
+    resp = requests.get(uri)
+    currency_dict = xmltodict.parse(resp.content)
+    usd_value = reduce(
+        lambda acc, cur: cur["Value"] if cur["CharCode"] == "USD" else acc,
+        currency_dict["ValCurs"]["Valute"],
+        0,
+    )
+    return usd_value
+
+pool = ThreadPool(processes=4)
+result = pool.map(get_usd_value, uri_list)
+pool.close()
+pool.join()
+
+print(result)
